@@ -54,17 +54,17 @@ Runner.Game.prototype = {
         this.swipe = this.game.input.activePointer;
 
         // initialize some variables
-        this.points = 0;
+        this.points = 365;
         this.wrapping = true;
         this.maxCollisions = 5;
 
         //stats
         var style1 = { font: "20px Arial", fill: "#161616"};
-        var t1 = this.game.add.text(10, 20, "401K:", style1);
+        var t1 = this.game.add.text(10, 20, "Days Until Retirement:", style1);
         t1.fixedToCamera = true;
 
         var style2 = { font: "26px Arial", fill: "#109901"};
-        this.pointsText = this.game.add.text(80, 18, "", style2);
+        this.pointsText = this.game.add.text(250, 18, "", style2);
         this.refreshStats();
         this.pointsText.fixedToCamera = true;
     },
