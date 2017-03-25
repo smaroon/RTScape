@@ -9,6 +9,8 @@ Runner.Game.prototype = {
     create : function () {
         // background and floor setup
         this.game.world.setBounds(0,0,2500, this.game.height);
+
+        this.background = this.add.tileSprite(0, 0, 2500, this.game.height+70, "background");
         this.floor = this.add.tileSprite(0, this.game.height-70, this.game.world.width, 70, 'floor');
 
         // create player and animation
@@ -70,6 +72,7 @@ Runner.Game.prototype = {
     },
 
     update: function() {
+        this.background.tilePosition.x = 1;
         //collision
         this.game.physics.arcade.collide(this.player, this.floor, this.playerHit, null, this);
         this.game.physics.arcade.collide(this.player, this.cabinets, null, null, this);

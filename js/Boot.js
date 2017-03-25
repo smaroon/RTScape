@@ -17,7 +17,7 @@ Runner.Boot.prototype = {
         this.scale.setScreenSize(true);
 
         //Phaser physics
-        this.game.physics.startSystem(Phaser.Physics.ARCADE)
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
         //begin preload
         this.state.start('Preload');
