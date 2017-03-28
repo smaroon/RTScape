@@ -7,6 +7,9 @@ Runner.Game.prototype = {
         this.game.time.advancedTiming = true;
     },
     create : function () {
+        this.backgroundMusic = this.game.add.audio('music');
+        this.backgroundMusic.loop = true; // This is what you are lookig for
+        this.backgroundMusic.play();
         // background and floor setup
         this.game.world.setBounds(0,0,2500, this.game.height);
 
@@ -19,19 +22,19 @@ Runner.Game.prototype = {
 
         //create managers
         this.generateManagers();
-        // create file cabinets
-        this.generateCabinets();
+        // create file monitors
+        this.generateMonitors();
         //todo create other items (obstacles + rewards)
 
-        // place items in proper order IE we want cabinets on the floor not under it
+        // place items in proper order IE we want monitors on the floor not under it
 
-        this.game.world.bringToTop(this.cabinets);
+        this.game.world.bringToTop(this.monitors);
         this.game.world.bringToTop(this.floor);
 
         //enable physics
         this.game.physics.arcade.enable(this.player);
         this.game.physics.arcade.enable(this.floor);
-        this.game.physics.arcade.enable(this.cabinets);
+        this.game.physics.arcade.enable(this.monitors);
 
         // add gravity to player
         this.player.body.gravity.y = 1000;
@@ -75,7 +78,7 @@ Runner.Game.prototype = {
         this.background.tilePosition.x = 1;
         //collision
         this.game.physics.arcade.collide(this.player, this.floor, this.playerHit, null, this);
-        this.game.physics.arcade.collide(this.player, this.cabinets, null, null, this);
+        this.game.physics.arcade.collide(this.player, this.monitors, null, null, this);
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
 
@@ -91,12 +94,12 @@ Runner.Game.prototype = {
                 this.wrapping = true;
                 this.managers.destroy();
                 this.generateManagers();
-                this.cabinets.destroy();
-                this.generateCabinets();
+                this.monitors.destroy();
+                this.generateMonitors();
 
                 //put everything back in the proper order
 
-                this.game.world.bringToTop(this.cabinets);
+                this.game.world.bringToTop(this.monitors);
                 this.game.world.bringToTop(this.floor);
             }
             else if (this.player.x >= this.game.width) {
@@ -153,20 +156,20 @@ Runner.Game.prototype = {
         this.managers.callAll('animations.play', 'animations', 'wave');
 
     },
-    generateCabinets : function() {
-        this.cabinets = this.game.add.group();
+    generateMonitors : function() {
+        this.monitors = this.game.add.group();
         //enable physics
-        this.cabinets.enableBody = true;
-        var numCabinets = this.game.rnd.integerInRange(0,3);
-        var cabinet;
+        this.monitors.enableBody = true;
+        var numMonitors = this.game.rnd.integerInRange(0,3);
+        var monitor;
 
-        for (var i = 0; i < numCabinets; i++) {
+        for (var i = 0; i < numMonitors; i++) {
             //add sprite within an area excluding the beginning and ending
             //  of the game world so items won't suddenly appear or disappear when wrapping
             var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
-            cabinet = this.cabinets.create(x, this.game.height-195, 'cabinet');
-            cabinet.body.immovable = true;
-            cabinet.body.velocity.x = 0;
+            monitor = this.monitors.create(x, this.game.height-185, 'monitor');
+            monitor.body.immovable = true;
+            monitor.body.velocity.x = 0;
         }
     }
 
