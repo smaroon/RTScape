@@ -10,11 +10,11 @@ Runner.Game.prototype = {
         // background and floor setup
         this.game.world.setBounds(0,0,2500, this.game.height);
 
-        this.background = this.add.tileSprite(0, 0, 2500, this.game.height+70, "background");
-        this.floor = this.add.tileSprite(0, this.game.height-70, this.game.world.width, 70, 'floor');
+        this.background = this.add.tileSprite(0, 0, 2500, this.game.height-20, "background");
+        this.floor = this.add.tileSprite(0, this.game.height-20, this.game.world.width, 20, 'floor');
 
         // create player and animation
-        this.player = this.game.add.sprite(this.game.width/2, this.game.height - 90, 'ra');
+        this.player = this.game.add.sprite(this.game.width/2, this.game.height - 40, 'ra');
         this.player.animations.add('walk');
 
         //create managers
@@ -84,6 +84,7 @@ Runner.Game.prototype = {
         this.game.physics.arcade.collide(this.player, this.monitors, null, null, this);
         this.game.physics.arcade.collide(this.player, this.clouds, null, null, this);
         this.game.physics.arcade.overlap(this.managers, this.player, this.playerHitMgr, this.refreshStats, this);
+        this.game.physics.arcade.overlap(this.coins, this.player, this.collectCoin, this.refreshStats, this);
 
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
@@ -151,19 +152,22 @@ Runner.Game.prototype = {
         this.points = this.points + 50;
         gen4.kill();
     },
-    collectCoin : function(player, item) {
-        this.points = this.points + 3;
+    collectCoin : function(player, coin) {
+        this.points = this.points - 3;
+        coin.kill()
     },
-    collectBeer : function(player, item) {
-        this.points = this.points + 1;
+    collectBeer : function(player, beer) {
+        this.points = this.points - 1;
+        beer.kill();
     },
-    collectRfp : function(player, item) {
-        this.points = this.points + 5;
+    collectRfp : function(player, rfp) {
+        this.points = this.points - 5;
+        rfp.kill();
     },
     playerJump : function() {
         // since the ground is a sprite we have to test for touch
         if (this.player.body.touching.down) {
-            this.player.body.velocity.y = -700;
+            this.player.body.velocity.y = -900;
         }
     },
     generateManagers : function() {
@@ -179,25 +183,25 @@ Runner.Game.prototype = {
             // this is the meat of manager gen.
             switch (mgr) {
                 case 0:
-                    manager = this.managers.create(x, this.game.height-170, 'jt');
+                    manager = this.managers.create(x, this.game.height-120, 'jt');
                     break;
                 case 1:
-                    manager = this.managers.create(x, this.game.height-160, 'mh');
+                    manager = this.managers.create(x, this.game.height-110, 'mh');
                     break;
                 case 2:
-                    manager = this.managers.create(x, this.game.height-160, 'mv');
+                    manager = this.managers.create(x, this.game.height-110, 'mv');
                     break;
                 case 3:
-                    manager = this.managers.create(x, this.game.height-190, 'mv2');
+                    manager = this.managers.create(x, this.game.height-140, 'mv2');
                     break;
                 case 4:
-                    manager = this.managers.create(x, this.game.height-170, 'er');
+                    manager = this.managers.create(x, this.game.height-120, 'er');
                     break;
                 case 5:
-                    manager = this.managers.create(x, this.game.height-170, 'er2');
+                    manager = this.managers.create(x, this.game.height-120, 'er2');
                     break;
                 case 6:
-                    manager = this.managers.create(x, this.game.height-200, 'jm');
+                    manager = this.managers.create(x, this.game.height-150, 'jm');
                     break;
             }
             manager.body.immovable = true;
@@ -220,7 +224,7 @@ Runner.Game.prototype = {
             //add sprite within an area excluding the beginning and ending
             //  of the game world so items won't suddenly appear or disappear when wrapping
             var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
-            monitor = this.monitors.create(x, this.game.height-185, 'monitor');
+            monitor = this.monitors.create(x, this.game.height-135, 'monitor');
             monitor.body.immovable = true;
             monitor.body.velocity.x = 0;
         }
@@ -236,7 +240,7 @@ Runner.Game.prototype = {
         	
         	var coinOps = this.game.rnd.integerInRange(0,3);
         	var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
-        	var y = this.game.rnd.integerInRange(this.game.height-170, this.game.height);    // position vertically
+        	var y = this.game.rnd.integerInRange(this.game.height-120, this.game.height);    // position vertically
         	switch(coinOps) {
         		case 0:
         			coin = this.coins.create(x, y, 'coin1');
@@ -266,7 +270,7 @@ Runner.Game.prototype = {
 
         for (var i = 0; i < numClouds; i++) {
             var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
-            cloud = this.clouds.create(x, this.game.height-300, 'cloud');
+            cloud = this.clouds.create(x, this.game.height-350, 'cloud');
             cloud.body.immovable = true;
             cloud.body.velocity.x = 0;
             this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
