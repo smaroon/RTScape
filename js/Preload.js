@@ -25,12 +25,17 @@ Runner.Preload.prototype = {
         this.load.image('background', 'assets/images/background.png');
         this.game.stage.backgroundColor = "#8f9fba";
         this.game.load.audio('music', ['assets/audio/The Final Countdown.wav'], true);
-
+        
         // Cloud platform
         this.load.spritesheet('cloud', 'assets/images/aws1.png', 480, 55);
 
         // Game items
         this.load.image('rollback', 'assets/images/rollback.png');
+        this.load.spritesheet('coin1', 'assets/images/coin1.png', 43, 32);
+        this.load.spritesheet('coin2', 'assets/images/coin2.png', 43, 32);
+        this.load.spritesheet('coin3', 'assets/images/coin3.png', 43, 32);
+        this.load.spritesheet('coin4', 'assets/images/coin4.png', 43, 32);
+
     },
     create: function() {
         this.state.start('Splash');
