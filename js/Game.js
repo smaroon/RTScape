@@ -60,9 +60,8 @@ Runner.Game.prototype = {
         this.swipe = this.game.input.activePointer;
 
         // initialize some variables
-        this.points = 365;
+        this.points = 90;
         this.wrapping = true;
-        this.maxCollisions = 5;
 
         //stats
         var style1 = { font: "20px Arial", fill: "#161616"};
@@ -79,9 +78,11 @@ Runner.Game.prototype = {
         this.background.tilePosition.x = 1;
 
         //collision
-        this.game.physics.arcade.collide(this.player, this.floor, this.playerHit, null, this);
+        this.game.physics.arcade.collide(this.player, this.floor, null, null, this);
         this.game.physics.arcade.collide(this.player, this.monitors, null, null, this);
         this.game.physics.arcade.collide(this.player, this.clouds, null, null, this);
+        this.game.physics.arcade.overlap(this.managers, this.player, this.playerHit(this.player, this.managers), this.refreshStats(), this);
+
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
 
@@ -132,13 +133,21 @@ Runner.Game.prototype = {
         this.pointsText.text = this.points;
         // todo additional stats???
     },
-    playerHit : function(player, blockedLayer) {
-        if (player.body.touching.right) {
-            // todo add functionality to obstacles
+    playerHit : function(player, managers) {
+        for (var i = 0; i < managers; i++) {
+            if (player.body.touching.right ) {
+                this.points = this.points + 20;
+            }
         }
+        // if (player.body.touching.right && ) {
+        //     this.points = this.points + 20;
+        // }
     },
     collect : function(player, item) {
         // todo add collection of $$ or challenge coins etc
+        if (player.body.touching.right) {
+            // todo add functionality to obstacles
+        }
     },
     playerJump : function() {
         // since the ground is a sprite we have to test for touch
@@ -180,6 +189,7 @@ Runner.Game.prototype = {
                     manager = this.managers.create(x, this.game.height-200, 'jm');
                     break;
             }
+            manager.body.immovable = true;
         }
 
         // manager = this.managers.create(x, this.game.height-170, 'jt');
