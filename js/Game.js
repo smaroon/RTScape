@@ -51,6 +51,10 @@ Runner.Game.prototype = {
         this.game.physics.arcade.enable(this.floor);
         this.game.physics.arcade.enable(this.monitors);
         this.game.physics.arcade.enable(this.clouds);
+        this.game.physics.arcade.enable(this.beers);
+        this.game.physics.arcade.enable(this.gen4);
+        this.game.physics.arcade.enable(this.rfp);
+        
 
         // add gravity to player
         this.player.body.gravity.y = 1000;
@@ -96,8 +100,12 @@ Runner.Game.prototype = {
         this.game.physics.arcade.collide(this.player, this.clouds, null, null, this);
         this.game.physics.arcade.overlap(this.managers, this.player, this.playerHitMgr, this.refreshStats, this);
         this.game.physics.arcade.overlap(this.coins, this.player, this.collectCoin, this.refreshStats, this);
+        this.game.physics.arcade.overlap(this.beers, this.player, this.collectBeer, this.refreshStats, this);
+        this.game.physics.arcade.overlap(this.gen4, this.player, this.playerHitGen4, this.refreshStats, this);
+        this.game.physics.arcade.overlap(this.rfp, this.player, this.collectRfp, this.refreshStats, this);
         this.game.physics.arcade.overlap(this.rollbacks, this.player, this.playerHitRollback, this.refreshStats, this);
 
+        
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
 
