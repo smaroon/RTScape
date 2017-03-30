@@ -17,6 +17,7 @@ Runner.Preload.prototype = {
         this.load.image('splash', 'assets/images/RTScape!.png');
         this.load.image('playButton', 'assets/images/playbutton.png');
 
+
         this.load.image('floor', 'assets/images/floor.png');
         this.load.image('monitor', 'assets/images/monitors.png');
         this.load.image('background', 'assets/images/background.png');
