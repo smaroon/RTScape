@@ -19,17 +19,25 @@ Runner.Game.prototype = {
 
         //create managers
         this.generateManagers();
+        // create manoj
+        this.generationManoj();
 
         //create monitors
         this.generateMonitors();
+        
+        //create beers
+        this.generateBeer();
 
-        //todo create other items (obstacles + rewards)
+        //create coins
         this.generateCoins();
         this.generateGen4();
         this.generateRfp();
 
         //create cloud platforms
         this.generateClouds();
+
+        //create rollbacks
+        this.generateRollbacks();
 
         // todo create other items (obstacles + rewards)
 
@@ -89,6 +97,7 @@ Runner.Game.prototype = {
         this.game.physics.arcade.collide(this.player, this.bar, null, null, this);
         this.game.physics.arcade.overlap(this.managers, this.player, this.playerHitMgr, this.refreshStats, this);
         this.game.physics.arcade.overlap(this.coins, this.player, this.collectCoin, this.refreshStats, this);
+        this.game.physics.arcade.overlap(this.rollbacks, this.player, this.playerHitRollback, this.refreshStats, this);
 
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
@@ -103,10 +112,20 @@ Runner.Game.prototype = {
 
                 //We only want to destroy and regenerate once per wrap, so we test with wrapping var
                 this.wrapping = true;
+
                 this.managers.destroy();
                 this.generateManagers();
+                
+                this.mts.destroy();
+                this.generationManoj();
+
                 this.monitors.destroy();
                 this.generateMonitors();
+
+                this.generateBeer();
+                this.beers.destroy();
+
+
                 this.coins.destroy();
                 this.generateCoins();
                 this.clouds.destroy();
@@ -116,6 +135,10 @@ Runner.Game.prototype = {
                 this.generateGen4();
                 this.rfp.destroy();
                 this.generateRfp();
+
+
+                this.rollbacks.destroy();
+                this.generateRollbacks();
 
 
                 //put everything back in the proper order
@@ -226,6 +249,17 @@ Runner.Game.prototype = {
         this.managers.callAll('animations.play', 'animations', 'wave');
 
     },
+    generationManoj : function() {
+        this.mts = this.game.add.group();
+        // enable physics
+        this.mts.enableBody = true;
+        var numMt = this.game.rnd.integerInRange(0, 1);
+        var mt;
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+        mt = this.mts.create(x, this.game.height-150, 'mt');
+        this.mts.callAll('animations.add', 'animations', 'jump', [0,1], 4, true);
+        this.mts.callAll('animations.play', 'animations', 'jump');
+    },
     generateMonitors : function() {
         this.monitors = this.game.add.group();
         //enable physics
@@ -293,8 +327,12 @@ Runner.Game.prototype = {
             cloud.body.velocity.x = 0;
             this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
             this.clouds.callAll('animations.play', 'animations', 'aws');
+<<<<<<< HEAD
             this.bar.callAll('animations.add', 'animations', 'bar', [0,1], 5, true);
             this.bar.callAll('animations.play', 'animations', 'bar');
+=======
+
+>>>>>>> upstream/master
         }
 
     },
@@ -323,5 +361,30 @@ Runner.Game.prototype = {
     		this.rfp.callAll('animations.add', 'animations', 'st', [0,1,2], 4, true);
     		this.rfp.callAll('animations.play', 'animations', 'st');
     	}
+    },
+    generateRollbacks : function() {
+        this.rollbacks = this.game.add.group();
+        //enable physics
+        this.rollbacks.enableBody = true;
+        var numRollbacks = this.game.rnd.integerInRange(0,5);
+        var rollback;
+
+        for (var i = 0; i < numRollbacks; i++) {
+            var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
+            rollback = this.rollbacks.create(x, this.game.height - 150, 'rollback');
+            rollback.body.velocity.x = 0;
+        }
+    },
+    generateBeer : function() {
+        this.beers = this.game.add.group();
+        // enable physics
+        this.beers.enableBody = true;
+//        var numBeers = this.game.rnd.integerInRange(0, 2);
+        var beer;
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+//        var y = this.game.rnd.integerInRange(this.game.height-320, this.game.height);
+//        beer = this.beers.create(x, y, 'beer');
+        beer = this.beers.create(x, this.game.height-250, 'beer');
+
     }
 };
