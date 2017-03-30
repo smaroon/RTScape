@@ -7,9 +7,6 @@ Runner.Game.prototype = {
         this.game.time.advancedTiming = true;
     },
     create : function () {
-        this.backgroundMusic = this.game.add.audio('music');
-        this.backgroundMusic.loop = true; // This is what you are lookig for
-        this.backgroundMusic.play();
         // background and floor setup
         this.game.world.setBounds(0,0,2500, this.game.height);
 
@@ -22,13 +19,22 @@ Runner.Game.prototype = {
 
         //create managers
         this.generateManagers();
-        // create file monitors
+
+        //create monitors
         this.generateMonitors();
+<<<<<<< HEAD
         //todo create other items (obstacles + rewards)
         this.generateCoins();
+=======
+>>>>>>> upstream/master
+
+        //create cloud platforms
+        this.generateClouds();
+
+        // todo create other items (obstacles + rewards)
 
         // place items in proper order IE we want monitors on the floor not under it
-
+        this.game.world.bringToTop(this.clouds);
         this.game.world.bringToTop(this.monitors);
         this.game.world.bringToTop(this.floor);
 
@@ -36,13 +42,12 @@ Runner.Game.prototype = {
         this.game.physics.arcade.enable(this.player);
         this.game.physics.arcade.enable(this.floor);
         this.game.physics.arcade.enable(this.monitors);
+        this.game.physics.arcade.enable(this.clouds);
 
         // add gravity to player
         this.player.body.gravity.y = 1000;
         // so we walk on the ground
         this.floor.body.immovable = true;
-
-
 
         this.player.standDimensions = {width: this.player.width, height: this.player.height};
         this.player.anchor.setTo(0.5, 1);
@@ -60,9 +65,8 @@ Runner.Game.prototype = {
         this.swipe = this.game.input.activePointer;
 
         // initialize some variables
-        this.points = 365;
+        this.points = 90;
         this.wrapping = true;
-        this.maxCollisions = 5;
 
         //stats
         var style1 = { font: "20px Arial", fill: "#161616"};
@@ -77,9 +81,13 @@ Runner.Game.prototype = {
 
     update: function() {
         this.background.tilePosition.x = 1;
+
         //collision
-        this.game.physics.arcade.collide(this.player, this.floor, this.playerHit, null, this);
+        this.game.physics.arcade.collide(this.player, this.floor, null, null, this);
         this.game.physics.arcade.collide(this.player, this.monitors, null, null, this);
+        this.game.physics.arcade.collide(this.player, this.clouds, null, null, this);
+        this.game.physics.arcade.overlap(this.managers, this.player, this.playerHit(this.player, this.managers), this.refreshStats(), this);
+
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
 
@@ -97,11 +105,16 @@ Runner.Game.prototype = {
                 this.generateManagers();
                 this.monitors.destroy();
                 this.generateMonitors();
+<<<<<<< HEAD
                 this.coins.destroy();
                 this.generateCoins();
+=======
+                this.clouds.destroy();
+                this.generateClouds();
+>>>>>>> upstream/master
 
                 //put everything back in the proper order
-
+                this.game.world.bringToTop(this.clouds);
                 this.game.world.bringToTop(this.monitors);
                 this.game.world.bringToTop(this.floor);
             }
@@ -130,13 +143,21 @@ Runner.Game.prototype = {
         this.pointsText.text = this.points;
         // todo additional stats???
     },
-    playerHit : function(player, blockedLayer) {
-        if (player.body.touching.right) {
-            // todo add functionality to obstacles
+    playerHit : function(player, managers) {
+        for (var i = 0; i < managers; i++) {
+            if (player.body.touching.right ) {
+                this.points = this.points + 20;
+            }
         }
+        // if (player.body.touching.right && ) {
+        //     this.points = this.points + 20;
+        // }
     },
     collect : function(player, item) {
         // todo add collection of $$ or challenge coins etc
+        if (player.body.touching.right) {
+            // todo add functionality to obstacles
+        }
     },
     playerJump : function() {
         // since the ground is a sprite we have to test for touch
@@ -150,12 +171,45 @@ Runner.Game.prototype = {
         this.managers.enableBody = true;
         var numManagers = this.game.rnd.integerInRange(0, 2);
         var manager;
-        // todo figure out generation.
 
+<<<<<<< HEAD
         // this is the meat of manager gen.
         var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
     
         manager = this.managers.create(x, this.game.height-170, 'jt');
+=======
+        for (var i = 0; i < numManagers; i++) {
+            var mgr = this.game.rnd.integerInRange(0,6);
+            var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+            // this is the meat of manager gen.
+            switch (mgr) {
+                case 0:
+                    manager = this.managers.create(x, this.game.height-170, 'jt');
+                    break;
+                case 1:
+                    manager = this.managers.create(x, this.game.height-160, 'mh');
+                    break;
+                case 2:
+                    manager = this.managers.create(x, this.game.height-160, 'mv');
+                    break;
+                case 3:
+                    manager = this.managers.create(x, this.game.height-190, 'mv2');
+                    break;
+                case 4:
+                    manager = this.managers.create(x, this.game.height-170, 'er');
+                    break;
+                case 5:
+                    manager = this.managers.create(x, this.game.height-170, 'er2');
+                    break;
+                case 6:
+                    manager = this.managers.create(x, this.game.height-200, 'jm');
+                    break;
+            }
+            manager.body.immovable = true;
+        }
+
+        // manager = this.managers.create(x, this.game.height-170, 'jt');
+>>>>>>> upstream/master
         this.managers.callAll('animations.add', 'animations', 'wave', [0,1], 4, true);
         this.managers.callAll('animations.play', 'animations', 'wave');
 
@@ -176,6 +230,7 @@ Runner.Game.prototype = {
             monitor.body.velocity.x = 0;
         }
     },
+<<<<<<< HEAD
     generateCoins : function() {
         this.coins = this.game.add.group();
         // enable physics
@@ -208,5 +263,22 @@ Runner.Game.prototype = {
         		
         }
     }  
+=======
+    generateClouds : function() {
+        this.clouds = this.game.add.group();
+        //enable physics
+        this.clouds.enableBody = true;
+        var numClouds = this.game.rnd.integerInRange(0,1);
+        var cloud;
+>>>>>>> upstream/master
 
+        for (var i = 0; i < numClouds; i++) {
+            var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
+            cloud = this.clouds.create(x, this.game.height-300, 'cloud');
+            cloud.body.immovable = true;
+            cloud.body.velocity.x = 0;
+            this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
+            this.clouds.callAll('animations.play', 'animations', 'aws');
+        }
+    }
 };
