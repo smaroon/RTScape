@@ -22,11 +22,8 @@ Runner.Game.prototype = {
 
         //create monitors
         this.generateMonitors();
-<<<<<<< HEAD
-        //todo create other items (obstacles + rewards)
+
         this.generateCoins();
-=======
->>>>>>> upstream/master
 
         //create cloud platforms
         this.generateClouds();
@@ -86,7 +83,7 @@ Runner.Game.prototype = {
         this.game.physics.arcade.collide(this.player, this.floor, null, null, this);
         this.game.physics.arcade.collide(this.player, this.monitors, null, null, this);
         this.game.physics.arcade.collide(this.player, this.clouds, null, null, this);
-        this.game.physics.arcade.overlap(this.managers, this.player, this.playerHit(this.player, this.managers), this.refreshStats(), this);
+        this.game.physics.arcade.overlap(this.managers, this.player, this.playerHitMgr, this.refreshStats, this);
 
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
@@ -105,13 +102,12 @@ Runner.Game.prototype = {
                 this.generateManagers();
                 this.monitors.destroy();
                 this.generateMonitors();
-<<<<<<< HEAD
+
                 this.coins.destroy();
                 this.generateCoins();
-=======
+
                 this.clouds.destroy();
                 this.generateClouds();
->>>>>>> upstream/master
 
                 //put everything back in the proper order
                 this.game.world.bringToTop(this.clouds);
@@ -143,21 +139,26 @@ Runner.Game.prototype = {
         this.pointsText.text = this.points;
         // todo additional stats???
     },
-    playerHit : function(player, managers) {
-        for (var i = 0; i < managers; i++) {
-            if (player.body.touching.right ) {
-                this.points = this.points + 20;
-            }
-        }
-        // if (player.body.touching.right && ) {
-        //     this.points = this.points + 20;
-        // }
+    playerHitMgr : function(player, manager) {
+        this.points = this.points + 20;
+        manager.kill();
     },
-    collect : function(player, item) {
-        // todo add collection of $$ or challenge coins etc
-        if (player.body.touching.right) {
-            // todo add functionality to obstacles
-        }
+    playerHitRollback : function(player, rollback) {
+        this.points = this.points + 10;
+        rollback.kill();
+    },
+    playerHitGen4 : function(player, gen4) {
+        this.points = this.points + 50;
+        gen4.kill();
+    },
+    collectCoin : function(player, item) {
+        this.points = this.points + 3;
+    },
+    collectBeer : function(player, item) {
+        this.points = this.points + 1;
+    },
+    collectRfp : function(player, item) {
+        this.points = this.points + 5;
     },
     playerJump : function() {
         // since the ground is a sprite we have to test for touch
@@ -172,12 +173,6 @@ Runner.Game.prototype = {
         var numManagers = this.game.rnd.integerInRange(0, 2);
         var manager;
 
-<<<<<<< HEAD
-        // this is the meat of manager gen.
-        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
-    
-        manager = this.managers.create(x, this.game.height-170, 'jt');
-=======
         for (var i = 0; i < numManagers; i++) {
             var mgr = this.game.rnd.integerInRange(0,6);
             var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
@@ -209,7 +204,7 @@ Runner.Game.prototype = {
         }
 
         // manager = this.managers.create(x, this.game.height-170, 'jt');
->>>>>>> upstream/master
+
         this.managers.callAll('animations.add', 'animations', 'wave', [0,1], 4, true);
         this.managers.callAll('animations.play', 'animations', 'wave');
 
@@ -230,7 +225,6 @@ Runner.Game.prototype = {
             monitor.body.velocity.x = 0;
         }
     },
-<<<<<<< HEAD
     generateCoins : function() {
         this.coins = this.game.add.group();
         // enable physics
@@ -262,15 +256,13 @@ Runner.Game.prototype = {
         	this.coins.callAll('animations.play', 'animations', 'spin');
         		
         }
-    }  
-=======
+    },
     generateClouds : function() {
         this.clouds = this.game.add.group();
         //enable physics
         this.clouds.enableBody = true;
         var numClouds = this.game.rnd.integerInRange(0,1);
         var cloud;
->>>>>>> upstream/master
 
         for (var i = 0; i < numClouds; i++) {
             var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
