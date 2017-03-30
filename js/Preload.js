@@ -23,6 +23,7 @@ Runner.Preload.prototype = {
         this.load.image('floor', 'assets/images/floor.png');
         this.load.image('monitor', 'assets/images/monitors.png');
         this.load.image('background', 'assets/images/background.png');
+        this.load.image('beer', 'assets/images/beer.png');
         this.game.stage.backgroundColor = "#8f9fba";
         this.game.load.audio('music', ['assets/audio/The Final Countdown.wav'], true);
         

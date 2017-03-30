@@ -22,6 +22,9 @@ Runner.Game.prototype = {
 
         //create monitors
         this.generateMonitors();
+        
+        //create beers
+        this.generateBeer();
 
         this.generateCoins();
 
@@ -103,6 +106,8 @@ Runner.Game.prototype = {
                 this.generateManagers();
                 this.monitors.destroy();
                 this.generateMonitors();
+                this.generateBeer();
+                this.beers.destroy();
 
                 this.coins.destroy();
                 this.generateCoins();
@@ -276,5 +281,17 @@ Runner.Game.prototype = {
             this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
             this.clouds.callAll('animations.play', 'animations', 'aws');
         }
+    },
+    generateBeer : function() {
+        this.beers = this.game.add.group();
+        // enable physics
+        this.beers.enableBody = true;
+//        var numBeers = this.game.rnd.integerInRange(0, 2);
+        var beer;
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+//        var y = this.game.rnd.integerInRange(this.game.height-320, this.game.height);
+//        beer = this.beers.create(x, y, 'beer');
+        beer = this.beers.create(x, this.game.height-250, 'beer');
+
     }
 };
