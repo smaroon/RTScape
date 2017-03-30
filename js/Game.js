@@ -130,8 +130,9 @@ Runner.Game.prototype = {
                 this.monitors.destroy();
                 this.generateMonitors();
 
-                this.generateBeer();
+                
                 this.beers.destroy();
+                this.generateBeer();
 
 
                 this.coins.destroy();
@@ -384,7 +385,7 @@ Runner.Game.prototype = {
         this.beers = this.game.add.group();
         // enable physics
         this.beers.enableBody = true;
-        var numBeers = this.game.rnd.integerInRange(0, 2);
+        var numBeers = this.game.rnd.integerInRange(1,3);
         var beer;
 //        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
 //        var y = this.game.rnd.integerInRange(this.game.height-320, this.game.height);
