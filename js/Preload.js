@@ -39,6 +39,7 @@ Runner.Preload.prototype = {
         this.load.spritesheet('coin4', 'assets/images/coin4.png', 43, 32);
         
         this.load.spritesheet('cloud', 'assets/images/aws1.png', 480, 55);
+        this.load.spritesheet('bar', 'assets/images/cloud_base.png', 480, 5);
         
         this.load.spritesheet('gen4', 'assets/images/gen4.png', 48, 64);
         this.load.spritesheet('rfp', 'assets/images/RFP.png', 24, 32);

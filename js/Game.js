@@ -93,7 +93,8 @@ Runner.Game.prototype = {
         //collision
         this.game.physics.arcade.collide(this.player, this.floor, null, null, this);
         this.game.physics.arcade.collide(this.player, this.monitors, null, null, this);
-        this.game.physics.arcade.collide(this.player, this.clouds, null, null, this);
+        //this.game.physics.arcade.collide(this.player, this.clouds, null, null, this);
+        this.game.physics.arcade.collide(this.player, this.bar, null, null, this);
         this.game.physics.arcade.overlap(this.managers, this.player, this.playerHitMgr, this.refreshStats, this);
         this.game.physics.arcade.overlap(this.coins, this.player, this.collectCoin, this.refreshStats, this);
         this.game.physics.arcade.overlap(this.rollbacks, this.player, this.playerHitRollback, this.refreshStats, this);
@@ -128,6 +129,7 @@ Runner.Game.prototype = {
                 this.coins.destroy();
                 this.generateCoins();
                 this.clouds.destroy();
+                this.bar.destroy();
                 this.generateClouds();
                 this.gen4.destroy();
                 this.generateGen4();
@@ -309,19 +311,28 @@ Runner.Game.prototype = {
 
     generateClouds : function() {
         this.clouds = this.game.add.group();
+        this.bar = this.add.group();
         //enable physics
         this.clouds.enableBody = true;
+        this.bar.enableBody = true;
         var numClouds = this.game.rnd.integerInRange(0,1);
         var cloud;
+        var Bar;
 
         for (var i = 0; i < numClouds; i++) {
             var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
             cloud = this.clouds.create(x, this.game.height-350, 'cloud');
-            cloud.body.immovable = true;
+            Bar = this.bar.create(x, this.game.height-310, 'bar');
+            Bar.body.immovable = true;
             cloud.body.velocity.x = 0;
             this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
             this.clouds.callAll('animations.play', 'animations', 'aws');
+<<<<<<< HEAD
+            this.bar.callAll('animations.add', 'animations', 'bar', [0,1], 5, true);
+            this.bar.callAll('animations.play', 'animations', 'bar');
+=======
 
+>>>>>>> upstream/master
         }
 
     },
