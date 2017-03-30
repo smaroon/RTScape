@@ -25,6 +25,7 @@ Runner.Game.prototype = {
         // create file monitors
         this.generateMonitors();
         //todo create other items (obstacles + rewards)
+        this.generateCoins();
 
         // place items in proper order IE we want monitors on the floor not under it
 
@@ -96,6 +97,8 @@ Runner.Game.prototype = {
                 this.generateManagers();
                 this.monitors.destroy();
                 this.generateMonitors();
+                this.coins.destroy();
+                this.generateCoins();
 
                 //put everything back in the proper order
 
@@ -171,6 +174,38 @@ Runner.Game.prototype = {
             monitor.body.immovable = true;
             monitor.body.velocity.x = 0;
         }
-    }
+    },
+    generateCoins : function() {
+        this.coins = this.game.add.group();
+        // enable physics
+        this.coins.enableBody = true;
+        var numCoins = this.game.rnd.integerInRange(0, 3);
+        var coin;
+        // todo figure out generation.
+        for (var i = 0; i < numCoins; i++) {
+        	
+        	var coinOps = this.game.rnd.integerInRange(0,3);
+        	var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+        	
+        	switch(coinOps) {
+        		case 0:
+        			coin = this.coins.create(x, this.game.height-170, 'coin1');
+        			break;
+        		case 1:
+        			coin = this.coins.create(x, this.game.height-170, 'coin2');
+        			break;
+        		case 2:
+        			coin = this.coins.create(x, this.game.height-170, 'coin3');
+        			break;
+        		case 3:
+        			coin = this.coins.create(x, this.game.height-170, 'coin4');
+        			break;
+        	}
+        	//coin = this.managers.create(x, this.game.height-170, 'jt');
+        	this.coins.callAll('animations.add', 'animations', 'spin', [0,3], 4, true);
+        	this.coins.callAll('animations.play', 'animations', 'spin');
+        		
+        }
+    }  
 
 };
