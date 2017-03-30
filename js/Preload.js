@@ -14,6 +14,7 @@ Runner.Preload.prototype = {
         this.load.spritesheet('er', 'assets/images/er.png', 132, 115);
         this.load.spritesheet('er2', 'assets/images/er2.png', 132, 115); // todo create non santa version
         this.load.spritesheet('jm', 'assets/images/jm.png', 132,132);
+        this.load.spritesheet('mt', 'assets/images/mt.png', 132,132);
 
         // Splash screen
         this.load.image('splash', 'assets/images/RTScape!.png');
