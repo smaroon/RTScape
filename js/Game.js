@@ -19,9 +19,14 @@ Runner.Game.prototype = {
 
         //create managers
         this.generateManagers();
+        // create manoj
+        this.generationManoj();
 
         //create monitors
         this.generateMonitors();
+        
+        //create beers
+        this.generateBeer();
 
         //create coins
         this.generateCoins();
@@ -109,9 +114,17 @@ Runner.Game.prototype = {
 
                 this.managers.destroy();
                 this.generateManagers();
+                
+                this.mts.destroy();
+                this.generationManoj();
 
                 this.monitors.destroy();
                 this.generateMonitors();
+
+                this.generateBeer();
+                this.beers.destroy();
+
+
                 this.coins.destroy();
                 this.generateCoins();
                 this.clouds.destroy();
@@ -124,6 +137,7 @@ Runner.Game.prototype = {
 
                 this.rollbacks.destroy();
                 this.generateRollbacks();
+
 
                 //put everything back in the proper order
                 this.game.world.bringToTop(this.clouds);
@@ -233,6 +247,17 @@ Runner.Game.prototype = {
         this.managers.callAll('animations.play', 'animations', 'wave');
 
     },
+    generationManoj : function() {
+        this.mts = this.game.add.group();
+        // enable physics
+        this.mts.enableBody = true;
+        var numMt = this.game.rnd.integerInRange(0, 1);
+        var mt;
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+        mt = this.mts.create(x, this.game.height-150, 'mt');
+        this.mts.callAll('animations.add', 'animations', 'jump', [0,1], 4, true);
+        this.mts.callAll('animations.play', 'animations', 'jump');
+    },
     generateMonitors : function() {
         this.monitors = this.game.add.group();
         //enable physics
@@ -296,6 +321,7 @@ Runner.Game.prototype = {
             cloud.body.velocity.x = 0;
             this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
             this.clouds.callAll('animations.play', 'animations', 'aws');
+
         }
 
     },
@@ -337,5 +363,17 @@ Runner.Game.prototype = {
             rollback = this.rollbacks.create(x, this.game.height - 150, 'rollback');
             rollback.body.velocity.x = 0;
         }
+    },
+    generateBeer : function() {
+        this.beers = this.game.add.group();
+        // enable physics
+        this.beers.enableBody = true;
+//        var numBeers = this.game.rnd.integerInRange(0, 2);
+        var beer;
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+//        var y = this.game.rnd.integerInRange(this.game.height-320, this.game.height);
+//        beer = this.beers.create(x, y, 'beer');
+        beer = this.beers.create(x, this.game.height-250, 'beer');
+
     }
 };
