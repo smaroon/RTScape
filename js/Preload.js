@@ -14,6 +14,7 @@ Runner.Preload.prototype = {
         this.load.spritesheet('er', 'assets/images/er.png', 132, 115);
         this.load.spritesheet('er2', 'assets/images/er2.png', 132, 115); // todo create non santa version
         this.load.spritesheet('jm', 'assets/images/jm.png', 132,132);
+        this.load.spritesheet('mt', 'assets/images/mt.png', 132,132);
 
         // Splash screen
         this.load.image('splash', 'assets/images/RTScape!.png');
@@ -36,6 +37,15 @@ Runner.Preload.prototype = {
         this.load.spritesheet('coin2', 'assets/images/coin2.png', 43, 32);
         this.load.spritesheet('coin3', 'assets/images/coin3.png', 43, 32);
         this.load.spritesheet('coin4', 'assets/images/coin4.png', 43, 32);
+        
+        this.load.spritesheet('cloud', 'assets/images/aws1.png', 480, 55);
+        
+        this.load.spritesheet('gen4', 'assets/images/gen4.png', 48, 64);
+        this.load.spritesheet('rfp', 'assets/images/RFP.png', 24, 32);
+
+        this.game.stage.backgroundColor = "#8f9fba";
+
+        this.game.load.audio('music', ['assets/audio/The Final Countdown.wav'], true);
 
     },
     create: function() {

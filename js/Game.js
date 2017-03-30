@@ -19,6 +19,8 @@ Runner.Game.prototype = {
 
         //create managers
         this.generateManagers();
+        // create manoj
+        this.generationManoj();
 
         //create monitors
         this.generateMonitors();
@@ -26,10 +28,16 @@ Runner.Game.prototype = {
         //create beers
         this.generateBeer();
 
+        //create coins
         this.generateCoins();
+        this.generateGen4();
+        this.generateRfp();
 
         //create cloud platforms
         this.generateClouds();
+
+        //create rollbacks
+        this.generateRollbacks();
 
         // todo create other items (obstacles + rewards)
 
@@ -88,6 +96,7 @@ Runner.Game.prototype = {
         this.game.physics.arcade.collide(this.player, this.clouds, null, null, this);
         this.game.physics.arcade.overlap(this.managers, this.player, this.playerHitMgr, this.refreshStats, this);
         this.game.physics.arcade.overlap(this.coins, this.player, this.collectCoin, this.refreshStats, this);
+        this.game.physics.arcade.overlap(this.rollbacks, this.player, this.playerHitRollback, this.refreshStats, this);
 
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
@@ -102,18 +111,33 @@ Runner.Game.prototype = {
 
                 //We only want to destroy and regenerate once per wrap, so we test with wrapping var
                 this.wrapping = true;
+
                 this.managers.destroy();
                 this.generateManagers();
+                
+                this.mts.destroy();
+                this.generationManoj();
+
                 this.monitors.destroy();
                 this.generateMonitors();
+
                 this.generateBeer();
                 this.beers.destroy();
 
+
                 this.coins.destroy();
                 this.generateCoins();
-
                 this.clouds.destroy();
                 this.generateClouds();
+                this.gen4.destroy();
+                this.generateGen4();
+                this.rfp.destroy();
+                this.generateRfp();
+
+
+                this.rollbacks.destroy();
+                this.generateRollbacks();
+
 
                 //put everything back in the proper order
                 this.game.world.bringToTop(this.clouds);
@@ -182,6 +206,12 @@ Runner.Game.prototype = {
         var numManagers = this.game.rnd.integerInRange(0, 2);
         var manager;
 
+
+        // this is the meat of manager gen.
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+    
+        manager = this.managers.create(x, this.game.height-170, 'jt');
+
         for (var i = 0; i < numManagers; i++) {
             var mgr = this.game.rnd.integerInRange(0,6);
             var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
@@ -213,10 +243,20 @@ Runner.Game.prototype = {
         }
 
         // manager = this.managers.create(x, this.game.height-170, 'jt');
-
         this.managers.callAll('animations.add', 'animations', 'wave', [0,1], 4, true);
         this.managers.callAll('animations.play', 'animations', 'wave');
 
+    },
+    generationManoj : function() {
+        this.mts = this.game.add.group();
+        // enable physics
+        this.mts.enableBody = true;
+        var numMt = this.game.rnd.integerInRange(0, 1);
+        var mt;
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+        mt = this.mts.create(x, this.game.height-150, 'mt');
+        this.mts.callAll('animations.add', 'animations', 'jump', [0,1], 4, true);
+        this.mts.callAll('animations.play', 'animations', 'jump');
     },
     generateMonitors : function() {
         this.monitors = this.game.add.group();
@@ -265,7 +305,8 @@ Runner.Game.prototype = {
         	this.coins.callAll('animations.play', 'animations', 'spin');
         		
         }
-    },
+    },  
+
     generateClouds : function() {
         this.clouds = this.game.add.group();
         //enable physics
@@ -280,6 +321,47 @@ Runner.Game.prototype = {
             cloud.body.velocity.x = 0;
             this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
             this.clouds.callAll('animations.play', 'animations', 'aws');
+
+        }
+
+    },
+    generateGen4 : function() {
+    	this.gen4 = this.game.add.group();
+    	this.gen4.enableBody = true;
+    	var numGen4 = this.game.rnd.integerInRange(0,2);
+    	var noGen4;
+    	
+    	for (var i = 0; i <numGen4; i++) {
+    		var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
+    		noGen4 = this.gen4.create(x, this.game.height-170,'gen4');
+    		this.gen4.callAll('animations.add', 'animations', 'flash', [0,1], 4, true);
+    		this.gen4.callAll('animations.play', 'animations', 'flash');
+    	}
+    },
+    generateRfp : function() {
+    	this.rfp = this.game.add.group();
+    	this.rfp.enableBody = true;
+    	var numRfp = this.game.rnd.integerInRange(0,2);
+    	var RFP;
+    	
+    	for (var i = 0; i <numRfp; i++) {
+    		var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
+    		RFP = this.gen4.create(x, this.game.height-170,'rfp');
+    		this.rfp.callAll('animations.add', 'animations', 'st', [0,1,2], 4, true);
+    		this.rfp.callAll('animations.play', 'animations', 'st');
+    	}
+    },
+    generateRollbacks : function() {
+        this.rollbacks = this.game.add.group();
+        //enable physics
+        this.rollbacks.enableBody = true;
+        var numRollbacks = this.game.rnd.integerInRange(0,5);
+        var rollback;
+
+        for (var i = 0; i < numRollbacks; i++) {
+            var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
+            rollback = this.rollbacks.create(x, this.game.height - 150, 'rollback');
+            rollback.body.velocity.x = 0;
         }
     },
     generateBeer : function() {
