@@ -327,12 +327,9 @@ Runner.Game.prototype = {
             cloud.body.velocity.x = 0;
             this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
             this.clouds.callAll('animations.play', 'animations', 'aws');
-<<<<<<< HEAD
+            
             this.bar.callAll('animations.add', 'animations', 'bar', [0,1], 5, true);
             this.bar.callAll('animations.play', 'animations', 'bar');
-=======
-
->>>>>>> upstream/master
         }
 
     },
