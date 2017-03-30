@@ -154,6 +154,7 @@ Runner.Game.prototype = {
 
         // this is the meat of manager gen.
         var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+    
         manager = this.managers.create(x, this.game.height-170, 'jt');
         this.managers.callAll('animations.add', 'animations', 'wave', [0,1], 4, true);
         this.managers.callAll('animations.play', 'animations', 'wave');
@@ -186,23 +187,23 @@ Runner.Game.prototype = {
         	
         	var coinOps = this.game.rnd.integerInRange(0,3);
         	var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
-        	
+        	var y = this.game.rnd.integerInRange(this.game.height-170, this.game.height);    // position vertically
         	switch(coinOps) {
         		case 0:
-        			coin = this.coins.create(x, this.game.height-170, 'coin1');
+        			coin = this.coins.create(x, y, 'coin1');
         			break;
         		case 1:
-        			coin = this.coins.create(x, this.game.height-170, 'coin2');
+        			coin = this.coins.create(x, y, 'coin2');
         			break;
         		case 2:
-        			coin = this.coins.create(x, this.game.height-170, 'coin3');
+        			coin = this.coins.create(x, y, 'coin3');
         			break;
         		case 3:
-        			coin = this.coins.create(x, this.game.height-170, 'coin4');
+        			coin = this.coins.create(x, y, 'coin4');
         			break;
         	}
         	//coin = this.managers.create(x, this.game.height-170, 'jt');
-        	this.coins.callAll('animations.add', 'animations', 'spin', [0,3], 4, true);
+        	this.coins.callAll('animations.add', 'animations', 'spin', [0,1,2,3], 4, true);
         	this.coins.callAll('animations.play', 'animations', 'spin');
         		
         }
