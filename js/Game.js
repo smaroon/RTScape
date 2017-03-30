@@ -218,7 +218,7 @@ Runner.Game.prototype = {
             // this is the meat of manager gen.
             switch (mgr) {
                 case 0:
-                    manager = this.managers.create(x, this.game.height-120, 'jt');
+                    manager = this.managers.create(x, this.game.height-150, 'jt');
                     break;
                 case 1:
                     manager = this.managers.create(x, this.game.height-110, 'mh');
@@ -346,7 +346,7 @@ Runner.Game.prototype = {
     	
     	for (var i = 0; i <numRfp; i++) {
     		var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
-    		RFP = this.gen4.create(x, this.game.height-170,'rfp');
+    		RFP = this.rfp.create(x, this.game.height-170,'rfp');
     		this.rfp.callAll('animations.add', 'animations', 'st', [0,1,2], 4, true);
     		this.rfp.callAll('animations.play', 'animations', 'st');
     	}
