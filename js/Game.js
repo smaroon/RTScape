@@ -22,6 +22,11 @@ Runner.Game.prototype = {
 
         //create monitors
         this.generateMonitors();
+<<<<<<< HEAD
+        //todo create other items (obstacles + rewards)
+        this.generateCoins();
+=======
+>>>>>>> upstream/master
 
         //create cloud platforms
         this.generateClouds();
@@ -100,8 +105,13 @@ Runner.Game.prototype = {
                 this.generateManagers();
                 this.monitors.destroy();
                 this.generateMonitors();
+<<<<<<< HEAD
+                this.coins.destroy();
+                this.generateCoins();
+=======
                 this.clouds.destroy();
                 this.generateClouds();
+>>>>>>> upstream/master
 
                 //put everything back in the proper order
                 this.game.world.bringToTop(this.clouds);
@@ -162,6 +172,12 @@ Runner.Game.prototype = {
         var numManagers = this.game.rnd.integerInRange(0, 2);
         var manager;
 
+<<<<<<< HEAD
+        // this is the meat of manager gen.
+        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+    
+        manager = this.managers.create(x, this.game.height-170, 'jt');
+=======
         for (var i = 0; i < numManagers; i++) {
             var mgr = this.game.rnd.integerInRange(0,6);
             var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
@@ -193,6 +209,7 @@ Runner.Game.prototype = {
         }
 
         // manager = this.managers.create(x, this.game.height-170, 'jt');
+>>>>>>> upstream/master
         this.managers.callAll('animations.add', 'animations', 'wave', [0,1], 4, true);
         this.managers.callAll('animations.play', 'animations', 'wave');
 
@@ -213,12 +230,47 @@ Runner.Game.prototype = {
             monitor.body.velocity.x = 0;
         }
     },
+<<<<<<< HEAD
+    generateCoins : function() {
+        this.coins = this.game.add.group();
+        // enable physics
+        this.coins.enableBody = true;
+        var numCoins = this.game.rnd.integerInRange(0, 3);
+        var coin;
+        // todo figure out generation.
+        for (var i = 0; i < numCoins; i++) {
+        	
+        	var coinOps = this.game.rnd.integerInRange(0,3);
+        	var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+        	var y = this.game.rnd.integerInRange(this.game.height-170, this.game.height);    // position vertically
+        	switch(coinOps) {
+        		case 0:
+        			coin = this.coins.create(x, y, 'coin1');
+        			break;
+        		case 1:
+        			coin = this.coins.create(x, y, 'coin2');
+        			break;
+        		case 2:
+        			coin = this.coins.create(x, y, 'coin3');
+        			break;
+        		case 3:
+        			coin = this.coins.create(x, y, 'coin4');
+        			break;
+        	}
+        	//coin = this.managers.create(x, this.game.height-170, 'jt');
+        	this.coins.callAll('animations.add', 'animations', 'spin', [0,1,2,3], 4, true);
+        	this.coins.callAll('animations.play', 'animations', 'spin');
+        		
+        }
+    }  
+=======
     generateClouds : function() {
         this.clouds = this.game.add.group();
         //enable physics
         this.clouds.enableBody = true;
         var numClouds = this.game.rnd.integerInRange(0,1);
         var cloud;
+>>>>>>> upstream/master
 
         for (var i = 0; i < numClouds; i++) {
             var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
