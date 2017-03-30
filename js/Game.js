@@ -147,11 +147,37 @@ Runner.Game.prototype = {
         this.managers.enableBody = true;
         var numManagers = this.game.rnd.integerInRange(0, 2);
         var manager;
-        // todo figure out generation.
 
-        // this is the meat of manager gen.
-        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
-        manager = this.managers.create(x, this.game.height-170, 'jt');
+        for (var i = 0; i < numManagers; i++) {
+            var mgr = this.game.rnd.integerInRange(0,6);
+            var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+            // this is the meat of manager gen.
+            switch (mgr) {
+                case 0:
+                    manager = this.managers.create(x, this.game.height-170, 'jt');
+                    break;
+                case 1:
+                    manager = this.managers.create(x, this.game.height-160, 'mh');
+                    break;
+                case 2:
+                    manager = this.managers.create(x, this.game.height-160, 'mv');
+                    break;
+                case 3:
+                    manager = this.managers.create(x, this.game.height-190, 'mv2');
+                    break;
+                case 4:
+                    manager = this.managers.create(x, this.game.height-170, 'er');
+                    break;
+                case 5:
+                    manager = this.managers.create(x, this.game.height-170, 'er2');
+                    break;
+                case 6:
+                    manager = this.managers.create(x, this.game.height-200, 'jm');
+                    break;
+            }
+        }
+
+        // manager = this.managers.create(x, this.game.height-170, 'jt');
         this.managers.callAll('animations.add', 'animations', 'wave', [0,1], 4, true);
         this.managers.callAll('animations.play', 'animations', 'wave');
 
