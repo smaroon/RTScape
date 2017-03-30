@@ -7,9 +7,6 @@ Runner.Game.prototype = {
         this.game.time.advancedTiming = true;
     },
     create : function () {
-        this.backgroundMusic = this.game.add.audio('music');
-        this.backgroundMusic.loop = true; // This is what you are lookig for
-        this.backgroundMusic.play();
         // background and floor setup
         this.game.world.setBounds(0,0,2500, this.game.height);
 
@@ -22,12 +19,17 @@ Runner.Game.prototype = {
 
         //create managers
         this.generateManagers();
-        // create file monitors
+
+        //create monitors
         this.generateMonitors();
-        //todo create other items (obstacles + rewards)
+
+        //create cloud platforms
+        this.generateClouds();
+
+        // todo create other items (obstacles + rewards)
 
         // place items in proper order IE we want monitors on the floor not under it
-
+        this.game.world.bringToTop(this.clouds);
         this.game.world.bringToTop(this.monitors);
         this.game.world.bringToTop(this.floor);
 
@@ -35,13 +37,12 @@ Runner.Game.prototype = {
         this.game.physics.arcade.enable(this.player);
         this.game.physics.arcade.enable(this.floor);
         this.game.physics.arcade.enable(this.monitors);
+        this.game.physics.arcade.enable(this.clouds);
 
         // add gravity to player
         this.player.body.gravity.y = 1000;
         // so we walk on the ground
         this.floor.body.immovable = true;
-
-
 
         this.player.standDimensions = {width: this.player.width, height: this.player.height};
         this.player.anchor.setTo(0.5, 1);
@@ -76,9 +77,11 @@ Runner.Game.prototype = {
 
     update: function() {
         this.background.tilePosition.x = 1;
+
         //collision
         this.game.physics.arcade.collide(this.player, this.floor, this.playerHit, null, this);
         this.game.physics.arcade.collide(this.player, this.monitors, null, null, this);
+        this.game.physics.arcade.collide(this.player, this.clouds, null, null, this);
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
 
@@ -96,9 +99,11 @@ Runner.Game.prototype = {
                 this.generateManagers();
                 this.monitors.destroy();
                 this.generateMonitors();
+                this.clouds.destroy();
+                this.generateClouds();
 
                 //put everything back in the proper order
-
+                this.game.world.bringToTop(this.clouds);
                 this.game.world.bringToTop(this.monitors);
                 this.game.world.bringToTop(this.floor);
             }
@@ -197,6 +202,21 @@ Runner.Game.prototype = {
             monitor.body.immovable = true;
             monitor.body.velocity.x = 0;
         }
-    }
+    },
+    generateClouds : function() {
+        this.clouds = this.game.add.group();
+        //enable physics
+        this.clouds.enableBody = true;
+        var numClouds = this.game.rnd.integerInRange(0,1);
+        var cloud;
 
+        for (var i = 0; i < numClouds; i++) {
+            var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
+            cloud = this.clouds.create(x, this.game.height-300, 'cloud');
+            cloud.body.immovable = true;
+            cloud.body.velocity.x = 0;
+            this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
+            this.clouds.callAll('animations.play', 'animations', 'aws');
+        }
+    }
 };
