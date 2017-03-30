@@ -23,10 +23,14 @@ Runner.Game.prototype = {
         //create monitors
         this.generateMonitors();
 
+        //create coins
         this.generateCoins();
 
         //create cloud platforms
         this.generateClouds();
+
+        //create rollbacks
+        this.generateRollbacks();
 
         // todo create other items (obstacles + rewards)
 
@@ -85,6 +89,7 @@ Runner.Game.prototype = {
         this.game.physics.arcade.collide(this.player, this.clouds, null, null, this);
         this.game.physics.arcade.overlap(this.managers, this.player, this.playerHitMgr, this.refreshStats, this);
         this.game.physics.arcade.overlap(this.coins, this.player, this.collectCoin, this.refreshStats, this);
+        this.game.physics.arcade.overlap(this.rollbacks, this.player, this.playerHitRollback, this.refreshStats, this);
 
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
@@ -99,8 +104,10 @@ Runner.Game.prototype = {
 
                 //We only want to destroy and regenerate once per wrap, so we test with wrapping var
                 this.wrapping = true;
+
                 this.managers.destroy();
                 this.generateManagers();
+
                 this.monitors.destroy();
                 this.generateMonitors();
 
@@ -109,6 +116,9 @@ Runner.Game.prototype = {
 
                 this.clouds.destroy();
                 this.generateClouds();
+
+                this.rollbacks.destroy();
+                this.generateRollbacks();
 
                 //put everything back in the proper order
                 this.game.world.bringToTop(this.clouds);
@@ -275,6 +285,19 @@ Runner.Game.prototype = {
             cloud.body.velocity.x = 0;
             this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
             this.clouds.callAll('animations.play', 'animations', 'aws');
+        }
+    },
+    generateRollbacks : function() {
+        this.rollbacks = this.game.add.group();
+        //enable physics
+        this.rollbacks.enableBody = true;
+        var numRollbacks = this.game.rnd.integerInRange(0,5);
+        var rollback;
+
+        for (var i = 0; i < numRollbacks; i++) {
+            var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
+            rollback = this.rollbacks.create(x, this.game.height - 150, 'rollback');
+            rollback.body.velocity.x = 0;
         }
     }
 };
