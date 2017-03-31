@@ -20,6 +20,7 @@ Runner.Preload.prototype = {
         this.load.image('splash', 'assets/images/RTScape!.png');
         this.load.image('playButton', 'assets/images/playbutton.png');
         this.load.image('next', 'assets/images/next.png');
+        this.load.image('musicButton', 'assets/images/music.png');
 
         // Game fixtures
         this.load.image('floor', 'assets/images/floor.png');
@@ -48,6 +49,7 @@ Runner.Preload.prototype = {
         this.game.stage.backgroundColor = "#8f9fba";
 
         this.game.load.audio('music', ['assets/audio/The Final Countdown.wav'], true);
+        this.game.load.audio('music2', ['assets/audio/The Benny Hill Show.wav'], true);
 
     },
     create: function() {
