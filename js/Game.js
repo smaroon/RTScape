@@ -51,6 +51,10 @@ Runner.Game.prototype = {
         this.game.physics.arcade.enable(this.floor);
         this.game.physics.arcade.enable(this.monitors);
         this.game.physics.arcade.enable(this.clouds);
+        this.game.physics.arcade.enable(this.beers);
+        this.game.physics.arcade.enable(this.gen4);
+        this.game.physics.arcade.enable(this.rfp);
+        
 
         // add gravity to player
         this.player.body.gravity.y = 1000;
@@ -97,8 +101,12 @@ Runner.Game.prototype = {
         this.game.physics.arcade.collide(this.player, this.bar, null, null, this);
         this.game.physics.arcade.overlap(this.managers, this.player, this.playerHitMgr, this.refreshStats, this);
         this.game.physics.arcade.overlap(this.coins, this.player, this.collectCoin, this.refreshStats, this);
+        this.game.physics.arcade.overlap(this.beers, this.player, this.collectBeer, this.refreshStats, this);
+        this.game.physics.arcade.overlap(this.gen4, this.player, this.playerHitGen4, this.refreshStats, this);
+        this.game.physics.arcade.overlap(this.rfp, this.player, this.collectRfp, this.refreshStats, this);
         this.game.physics.arcade.overlap(this.rollbacks, this.player, this.playerHitRollback, this.refreshStats, this);
 
+        
         //only respond to keys and keep the speed if the player is alive
         if (this.player.alive) {
 
@@ -122,8 +130,9 @@ Runner.Game.prototype = {
                 this.monitors.destroy();
                 this.generateMonitors();
 
-                this.generateBeer();
+                
                 this.beers.destroy();
+                this.generateBeer();
 
 
                 this.coins.destroy();
@@ -376,12 +385,17 @@ Runner.Game.prototype = {
         this.beers = this.game.add.group();
         // enable physics
         this.beers.enableBody = true;
-//        var numBeers = this.game.rnd.integerInRange(0, 2);
+        var numBeers = this.game.rnd.integerInRange(1,3);
         var beer;
-        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
+//        var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
 //        var y = this.game.rnd.integerInRange(this.game.height-320, this.game.height);
 //        beer = this.beers.create(x, y, 'beer');
-        beer = this.beers.create(x, this.game.height-250, 'beer');
+//        beer = this.beers.create(x, this.game.height-250, 'beer');
+        for (var i = 0; i < numBeers; i++) {
+            var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
+            beer = this.beers.create(x, this.game.height - 250, 'beer');
+//            beer.body.velocity.x = 0;
+        }
 
     }
 };
