@@ -17,8 +17,7 @@ Runner.Splash.prototype = {
 
         this.add.sprite(0, 0, 'splash');
 
-        this.playButton = this.add.button(380, 330, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
-
+        this.playButton = this.add.button(420, 315, 'next', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
         this.musicButton = this.add.button(650, 300, 'musicButton', this.selectMusic, this, 'buttonOver', 'buttonOut', 'buttonOver');
     },
 
@@ -41,6 +40,6 @@ Runner.Splash.prototype = {
 
     },
     startGame: function (pointer) {
-        this.state.start('Game');
+        this.state.start('Rules');
     }
 };

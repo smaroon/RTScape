@@ -16,9 +16,10 @@ Runner.Preload.prototype = {
         this.load.spritesheet('jm', 'assets/images/jm.png', 132,132);
         this.load.spritesheet('mt', 'assets/images/mt.png', 132,132);
 
-        // Splash screen
+        // Splash and Rules screens
         this.load.image('splash', 'assets/images/RTScape!.png');
         this.load.image('playButton', 'assets/images/playbutton.png');
+        this.load.image('next', 'assets/images/next.png');
         this.load.image('musicButton', 'assets/images/music.png');
 
         // Game fixtures
