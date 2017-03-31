@@ -20,7 +20,7 @@ Runner.Game.prototype = {
         //create managers
         this.generateManagers();
         // create manoj
-        this.generationManoj();
+        //this.generationManoj();
 
         //create monitors
         this.generateMonitors();
@@ -123,9 +123,6 @@ Runner.Game.prototype = {
 
                 this.managers.destroy();
                 this.generateManagers();
-                
-                this.mts.destroy();
-                this.generationManoj();
 
                 this.monitors.destroy();
                 this.generateMonitors();
@@ -139,6 +136,7 @@ Runner.Game.prototype = {
                 this.generateCoins();
                 this.clouds.destroy();
                 this.bar.destroy();
+                this.mts.destroy();
                 this.generateClouds();
                 this.gen4.destroy();
                 this.generateGen4();
@@ -221,7 +219,7 @@ Runner.Game.prototype = {
         // this is the meat of manager gen.
         var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
     
-        manager = this.managers.create(x, this.game.height-170, 'jt');
+        //manager = this.managers.create(x, this.game.height-170, 'jt');
 
         for (var i = 0; i < numManagers; i++) {
             var mgr = this.game.rnd.integerInRange(0,6);
@@ -229,7 +227,8 @@ Runner.Game.prototype = {
             // this is the meat of manager gen.
             switch (mgr) {
                 case 0:
-                    manager = this.managers.create(x, this.game.height-150, 'jt');
+
+                    manager = this.managers.create(x, this.game.height-115, 'jt');
                     break;
                 case 1:
                     manager = this.managers.create(x, this.game.height-110, 'mh');
@@ -258,7 +257,7 @@ Runner.Game.prototype = {
         this.managers.callAll('animations.play', 'animations', 'wave');
 
     },
-    generationManoj : function() {
+    /*generationManoj : function() {
         this.mts = this.game.add.group();
         // enable physics
         this.mts.enableBody = true;
@@ -268,7 +267,7 @@ Runner.Game.prototype = {
         mt = this.mts.create(x, this.game.height-150, 'mt');
         this.mts.callAll('animations.add', 'animations', 'jump', [0,1], 4, true);
         this.mts.callAll('animations.play', 'animations', 'jump');
-    },
+    },*/
     generateMonitors : function() {
         this.monitors = this.game.add.group();
         //enable physics
@@ -296,7 +295,7 @@ Runner.Game.prototype = {
         	
         	var coinOps = this.game.rnd.integerInRange(0,3);
         	var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width); // position horizontally
-        	var y = this.game.rnd.integerInRange(this.game.height-120, this.game.height);    // position vertically
+        	var y = this.game.rnd.integerInRange(this.game.height-150, this.game.height);    // position vertically
         	switch(coinOps) {
         		case 0:
         			coin = this.coins.create(x, y, 'coin1');
@@ -321,24 +320,29 @@ Runner.Game.prototype = {
     generateClouds : function() {
         this.clouds = this.game.add.group();
         this.bar = this.add.group();
-        //enable physics
+        this.mts = this.game.add.group();
+        // enable physics
         this.clouds.enableBody = true;
         this.bar.enableBody = true;
+        this.mts.enableBody = true;
         var numClouds = this.game.rnd.integerInRange(0,1);
         var cloud;
         var Bar;
+        var mt;
 
         for (var i = 0; i < numClouds; i++) {
             var x = this.game.rnd.integerInRange(this.game.width, this.game.world.width - this.game.width);
             cloud = this.clouds.create(x, this.game.height-350, 'cloud');
             Bar = this.bar.create(x, this.game.height-310, 'bar');
+            mt = this.mts.create(x+320, this.game.height-450, 'mt');
             Bar.body.immovable = true;
             cloud.body.velocity.x = 0;
             this.clouds.callAll('animations.add', 'animations', 'aws', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
             this.clouds.callAll('animations.play', 'animations', 'aws');
-            
             this.bar.callAll('animations.add', 'animations', 'bar', [0,1], 5, true);
             this.bar.callAll('animations.play', 'animations', 'bar');
+            this.mts.callAll('animations.add', 'animations', 'jump', [0,1], 4, true);
+            this.mts.callAll('animations.play', 'animations', 'jump');
         }
 
     },
